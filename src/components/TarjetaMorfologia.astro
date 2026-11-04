@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import { url, CATEGORIAS, type Morfologia } from '../lib/datos';
+import Estado from './Estado.astro';
+
+interface Props {
+  m: Morfologia;
+}
+const { m } = Astro.props;
+const d = m.data;
+const texto = [d.titulo, d.nombreIngles, d.sinonimos.join(' '), d.rasgo, d.grupo].join(' ').toLowerCase();
+---
+
+<li class="tarjeta" data-categoria={d.categoria} data-texto={texto}>
+  <div class="miniatura">
+    {
+      d.imagen ? (
+        <Image src={d.imagen.src} alt="" width={480} height={360} widths={[240, 480]} sizes="(max-width: 40rem) 90vw, 240px" loading="lazy" />
+      ) : (
+        <span class="sin-imagen">Imagen pendiente</span>
+      )
+    }
+  </div>
+  <div class="cuerpo">
+    <p class="codigo">{d.codigo} · {CATEGORIAS[d.categoria]}</p>
+    <h3><a href={url(`morfologias/${m.id}`)}>{d.titulo}</a></h3>
+    <p>{d.rasgo}.</p>
+    <div class="badges">
+      <Estado estado={d.estadoRevision} />
+      {d.felinoPendiente && <span class="badge pendiente"><span aria-hidden="true">○</span> Felino pendiente</span>}
+    </div>
+  </div>
+</li>

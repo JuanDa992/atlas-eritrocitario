@@ -1,0 +1,137 @@
+---
+import '@fontsource/atkinson-hyperlegible/400.css';
+import '@fontsource/atkinson-hyperlegible/700.css';
+import '../styles/global.css';
+import { url, VERSION } from '../lib/datos';
+
+interface Props {
+  titulo: string;
+  descripcion?: string;
+}
+const { titulo, descripcion = 'Atlas digital de morfología eritrocitaria en caninos y felinos. Versión beta en revisión.' } = Astro.props;
+
+const nombreSitio = 'Atlas de morfología eritrocitaria';
+const tituloCompleto = titulo === nombreSitio ? titulo : `${titulo} · ${nombreSitio}`;
+const actual = Astro.url.pathname.replace(/\/$/, '');
+const enlaces = [
+  { href: url(), texto: 'Inicio', ruta: url().replace(/\/$/, '') },
+  { href: url('aprender'), texto: 'Aprender', ruta: url('aprender').replace(/\/$/, '') },
+  { href: url('morfologias'), texto: 'Consultar', ruta: url('morfologias').replace(/\/$/, '') },
+  { href: url('enfermedades'), texto: 'Enfermedades', ruta: url('enfermedades').replace(/\/$/, '') },
+  { href: url('buscar'), texto: 'Buscar', ruta: url('buscar').replace(/\/$/, '') },
+  { href: url('metodologia'), texto: 'Método y fuentes', ruta: url('metodologia').replace(/\/$/, '') },
+];
+function activo(ruta: string) {
+  if (ruta === url().replace(/\/$/, '')) return actual === ruta;
+  return actual === ruta || actual.startsWith(ruta + '/');
+}
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descripcion} />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:type" content="website" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+    <script is:inline>
+      try {
+        var t = localStorage.getItem('atlas-tema');
+        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+    <div class="beta" role="note">
+      <div class="wrap">
+        <strong>Versión beta {VERSION}.</strong>
+        <span>Contenido en revisión por especialistas · Fotografías felinas pendientes · Imágenes provisionales.</span>
+      </div>
+    </div>
+
+    <header class="sitio">
+      <div class="wrap">
+        <a class="marca" href={url()}>
+          <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="28" fill="currentColor" style="color: var(--accent)"></circle>
+            <ellipse cx="32" cy="32" rx="12" ry="9" fill="var(--accent-soft)"></ellipse>
+          </svg>
+          <span>
+            Atlas de morfología eritrocitaria
+            <small>Caninos y felinos</small>
+          </span>
+        </a>
+        <nav class="principal" aria-label="Principal">
+          <ul>
+            {
+              enlaces.map((e) => (
+                <li>
+                  <a href={e.href} aria-current={activo(e.ruta) ? 'page' : undefined}>
+                    {e.texto}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <button class="tema" type="button" id="tema" aria-label="Cambiar entre modo claro y oscuro">
+          <span aria-hidden="true">◑</span> <span>Tema</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="contenido" class="wrap">
+      <slot />
+    </main>
+
+    <footer class="sitio">
+      <div class="wrap cols">
+        <div>
+          <p><strong>Atlas de morfología eritrocitaria en caninos y felinos</strong></p>
+          <p>Versión beta {VERSION}. Basado en la tesis de María Himaraya Luna Coello (UCE, 2026).</p>
+          <p>
+            Diseño, ejecución y programación: Juan David Báez Sotomayor. Universidad Central del Ecuador · Facultad de
+            Medicina Veterinaria y Zootecnia.
+          </p>
+        </div>
+        <div>
+          <p><a href={url('acerca')}>Acerca, créditos y cómo citar</a></p>
+          <p><a href={url('bibliografia')}>Bibliografía</a></p>
+          <p>
+            <a href="https://github.com/JuanDa992/atlas-eritrocitario/issues" rel="noopener">Reportar un error o sugerir un cambio</a>
+          </p>
+        </div>
+        <div>
+          <p>
+            Este atlas es una herramienta de apoyo educativo y de consulta. No sustituye el criterio clínico ni el
+            diagnóstico de laboratorio.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (function () {
+        var b = document.getElementById('tema');
+        if (!b) return;
+        b.addEventListener('click', function () {
+          var el = document.documentElement;
+          var actual = el.getAttribute('data-theme');
+          if (!actual) actual = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          var nuevo = actual === 'dark' ? 'light' : 'dark';
+          el.setAttribute('data-theme', nuevo);
+          try {
+            localStorage.setItem('atlas-tema', nuevo);
+          } catch (e) {}
+        });
+      })();
+    </script>
+  </body>
+</html>

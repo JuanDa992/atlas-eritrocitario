@@ -1,0 +1,144 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Estado from '../../components/Estado.astro';
+import TarjetaMorfologia from '../../components/TarjetaMorfologia.astro';
+import { url, enfermedades, REFERENCIAS, TIPO } from '../../lib/datos';
+
+export async function getStaticPaths() {
+  const lista = await enfermedades();
+  return lista.map((e) => ({ params: { slug: e.id }, props: { e } }));
+}
+
+const { e } = Astro.props;
+const d = e.data;
+const { Content } = await render(e);
+const morfs = (await Promise.all(d.morfologias.map((r) => getEntry(r)))).filter(Boolean);
+const rels = (await Promise.all(d.relacionadas.map((r) => getEntry(r)))).filter(Boolean);
+const descripcion = `${d.titulo}: morfologías eritrocitarias asociadas en caninos y felinos. ${TIPO[d.tipo]} del atlas.`;
+const etiquetaEspecie = { canino: 'Canino', felino: 'Felino' } as const;
+---
+
+<Base titulo={d.titulo} descripcion={descripcion}>
+  <p class="migas"><a href={url('enfermedades')}>Enfermedades</a> › {d.codigo}</p>
+
+  <article class="ficha" data-pagefind-body>
+    <header>
+      <p class="codigo">{d.codigo} · {TIPO[d.tipo]}</p>
+      <h1 data-pagefind-meta="title">{d.titulo}</h1>
+      <div class="badges" data-pagefind-ignore>
+        <Estado estado={d.estadoRevision} />
+        {d.especies.map((s) => <span class="badge pendiente">{etiquetaEspecie[s]}</span>)}
+        {d.definicionPendiente && <span class="badge pendiente"><span aria-hidden="true">○</span> Definición clínica pendiente</span>}
+      </div>
+    </header>
+
+    {
+      (d.igual || d.diferente) && (
+        <dl class="trio">
+          {d.igual && (
+            <div>
+              <dt>Qué comparten perro y gato</dt>
+              <dd>{d.igual}</dd>
+            </div>
+          )}
+          {d.diferente && (
+            <div>
+              <dt>Qué cambia en el gato</dt>
+              <dd>{d.diferente}</dd>
+            </div>
+          )}
+        </dl>
+      )
+    }
+
+    {
+      morfs.length > 0 && (
+        <section data-pagefind-ignore>
+          <h2>Morfologías que se esperan en el frotis</h2>
+          <ul class="rejilla">{morfs.map((m) => <TarjetaMorfologia m={m as any} />)}</ul>
+        </section>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      rels.length > 0 && (
+        <section data-pagefind-ignore>
+          <h2>Relacionado</h2>
+          <ul class="pildoras">
+            {rels.map((x) => (
+              <li>
+                <a href={url(`enfermedades/${x!.id}`)}>
+                  {(x as any).data.titulo}
+                  <span class="tipo">{TIPO[(x as any).data.tipo as keyof typeof TIPO]}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      d.pasajes.length > 0 && (
+        <details class="plegable" data-pagefind-ignore>
+          <summary>Pasajes de la tesis en que se basa esta página</summary>
+          <p>Cada pasaje puede nombrar varias condiciones; su inclusión no extiende todos los hallazgos a cada una.</p>
+          {d.pasajes.map((p) => <blockquote>{p}</blockquote>)}
+        </details>
+      )
+    }
+
+    {
+      d.frecuencia.length > 0 && (
+        <details class="plegable" data-pagefind-ignore>
+          <summary>Frecuencia documentada</summary>
+          <table class="datos">
+            <thead>
+              <tr><th scope="col">Especie</th><th scope="col">Dato original</th><th scope="col">Valor consignado (%)</th><th scope="col">Medida</th></tr>
+            </thead>
+            <tbody>
+              {d.frecuencia.map((f) => (
+                <tr><td>{etiquetaEspecie[f.especie]}</td><td>{f.texto}</td><td>{f.valor || '—'}</td><td>{f.medida || '—'}</td></tr>
+              ))}
+            </tbody>
+          </table>
+          {d.notaFrecuencia && <p>{d.notaFrecuencia}</p>}
+          <p>Los datos proceden de la tabla maestra y de los cuadros de la tesis; no son una estimación epidemiológica propia ni una probabilidad diagnóstica individual.</p>
+        </details>
+      )
+    }
+
+    {
+      (d.pendientes.length > 0 || d.notas.length > 0) && (
+        <details class="plegable" data-pagefind-ignore>
+          <summary>Estado de esta página: pendientes y notas editoriales</summary>
+          <p>Versión de contenido {d.versionContenido} · actualizada el {d.fechaContenido} · borrador en revisión.</p>
+          {d.notas.length > 0 && (
+            <>
+              <h3>Notas editoriales</h3>
+              <ul class="lista-simple">{d.notas.map((n) => <li>{n}</li>)}</ul>
+            </>
+          )}
+          {d.pendientes.length > 0 && (
+            <>
+              <h3>Pendientes</h3>
+              <ul class="lista-simple">{d.pendientes.map((n) => <li>{n}</li>)}</ul>
+            </>
+          )}
+        </details>
+      )
+    }
+
+    <section class="refs" data-pagefind-ignore>
+      <h2>Referencias</h2>
+      <ul class="lista-simple">
+        {d.referencias.map((r) => <li>{REFERENCIAS[r]?.completa ?? r}</li>)}
+      </ul>
+    </section>
+  </article>
+</Base>

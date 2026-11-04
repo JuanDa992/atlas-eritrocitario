@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import TarjetaMorfologia from '../../components/TarjetaMorfologia.astro';
+import { morfologias, CATEGORIAS, ORDEN_CATEGORIAS } from '../../lib/datos';
+
+const lista = await morfologias();
+---
+
+<Base titulo="Consultar morfologías" descripcion="Catálogo de morfologías eritrocitarias en caninos y felinos con filtro por tipo de alteración y búsqueda por nombre o sinónimo.">
+  <h1>Consultar: catálogo de morfologías</h1>
+  <p>Filtre por tipo de alteración o escriba el nombre, un sinónimo o un rasgo (por ejemplo «espículas» o «target»).</p>
+
+  <div class="filtros">
+    <label class="buscar">
+      Buscar en el catálogo
+      <input type="search" id="q" placeholder="Nombre, sinónimo o rasgo" autocomplete="off" />
+    </label>
+    <div class="chips" role="group" aria-label="Filtrar por tipo de alteración">
+      <button type="button" class="chip" data-cat="todas" aria-pressed="true">Todas</button>
+      {ORDEN_CATEGORIAS.map((c) => <button type="button" class="chip" data-cat={c} aria-pressed="false">{CATEGORIAS[c]}</button>)}
+    </div>
+    <p class="contador" id="contador" aria-live="polite">{lista.length} de {lista.length} morfologías</p>
+  </div>
+
+  <ul class="rejilla" id="rejilla">
+    {lista.map((m) => <TarjetaMorfologia m={m} />)}
+  </ul>
+  <p id="vacio" hidden>No hay morfologías que coincidan. Pruebe con otro término o quite el filtro.</p>
+
+  <script is:inline>
+    (function () {
+      var q = document.getElementById('q');
+      var chips = document.querySelectorAll('.chip');
+      var tarjetas = Array.prototype.slice.call(document.querySelectorAll('#rejilla .tarjeta'));
+      var contador = document.getElementById('contador');
+      var vacio = document.getElementById('vacio');
+      var cat = 'todas';
+      function norm(s) {
+        return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+      }
+      function aplicar() {
+        var t = norm(q.value.trim());
+        var n = 0;
+        tarjetas.forEach(function (c) {
+          var okCat = cat === 'todas' || c.getAttribute('data-categoria') === cat;
+          var okTxt = !t || norm(c.getAttribute('data-texto')).indexOf(t) !== -1;
+          c.hidden = !(okCat && okTxt);
+          if (!c.hidden) n++;
+        });
+        contador.textContent = n + ' de ' + tarjetas.length + ' morfologías';
+        vacio.hidden = n !== 0;
+      }
+      q.addEventListener('input', aplicar);
+      chips.forEach(function (b) {
+        b.addEventListener('click', function () {
+          cat = b.getAttribute('data-cat');
+          chips.forEach(function (x) {
+            x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+          });
+          aplicar();
+        });
+      });
+    })();
+  </script>
+</Base>

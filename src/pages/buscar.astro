@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/datos';
+
+const base = url();
+---
+
+<Base titulo="Buscar" descripcion="Busque morfologías, enfermedades y sinónimos en el atlas de morfología eritrocitaria.">
+  <h1>Buscar</h1>
+  <p>Escriba un nombre, un sinónimo (también en inglés) o una palabra de la descripción.</p>
+
+  <link rel="stylesheet" href={url('pagefind/pagefind-ui.css')} />
+  <div id="busqueda" data-pagefind-ignore></div>
+  <noscript><p>La búsqueda necesita JavaScript. Puede usar el <a href={url('morfologias')}>catálogo</a> en su lugar.</p></noscript>
+  <p id="sin-indice" hidden>
+    El índice de búsqueda se genera al compilar el sitio (<code>npm run build</code>). En modo desarrollo use el
+    <a href={url('morfologias')}>catálogo</a>.
+  </p>
+
+  <script is:inline src={url('pagefind/pagefind-ui.js')} onerror="document.getElementById('sin-indice').hidden=false"></script>
+  <script is:inline define:vars={{ base }}>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (typeof PagefindUI === 'undefined') return;
+      new PagefindUI({
+        element: '#busqueda',
+        baseUrl: base,
+        bundlePath: base + 'pagefind/',
+        showImages: false,
+        showSubResults: false,
+        resetStyles: false,
+      });
+    });
+  </script>
+</Base>

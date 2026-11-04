@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import { url, morfologias, CATEGORIAS, ORDEN_CATEGORIAS } from '../lib/datos';
+
+const lista = await morfologias();
+const porId = new Map(lista.map((m) => [m.id, m]));
+
+// Pares que se confunden: se deducen de los diferenciales de cada ficha, sin repetir.
+const pares: [string, string][] = [];
+const vistos = new Set<string>();
+for (const m of lista) {
+  for (const r of m.data.diferenciales) {
+    const clave = [m.id, r.id].sort().join('|');
+    if (!vistos.has(clave) && porId.has(r.id)) {
+      vistos.add(clave);
+      pares.push([m.id, r.id]);
+    }
+  }
+}
+---
+
+<Base titulo="Aprender" descripcion="Ruta de estudio de las morfologías eritrocitarias y pares de alteraciones que se confunden.">
+  <h1>Aprender</h1>
+  <p>
+    Una ruta pensada para quien empieza: primero se aprende a describir la célula (tamaño, color, forma y
+    distribución) y después se reconocen las inclusiones. Cada ficha empieza por la imagen y el rasgo clave.
+  </p>
+
+  <section>
+    <h2>Ruta sugerida</h2>
+    <ol>
+      {
+        ORDEN_CATEGORIAS.map((c) => {
+          const items = lista.filter((m) => m.data.categoria === c);
+          return (
+            <li>
+              <strong>{CATEGORIAS[c]}</strong>:{' '}
+              {items.map((m, i) => (
+                <>
+                  <a href={url(`morfologias/${m.id}`)}>{m.data.titulo}</a>
+                  {i < items.length - 1 ? ', ' : '.'}
+                </>
+              ))}
+            </li>
+          );
+        })
+      }
+    </ol>
+  </section>
+
+  <section>
+    <h2>Pares que se confunden</h2>
+    <p>Cada ficha indica con qué se puede confundir la morfología. Estos son los pares señalados en las fichas:</p>
+    <ul class="pildoras">
+      {
+        pares.map(([a, b]) => (
+          <li>
+            <a href={url(`morfologias/${a}`)}>{porId.get(a)!.data.titulo}</a>
+            <span aria-hidden="true"> ↔ </span>
+            <span class="sr-only"> con </span>
+            <a href={url(`morfologias/${b}`)}>{porId.get(b)!.data.titulo}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="caja">
+    <h2>En construcción</h2>
+    <p>Estas herramientas están previstas para las próximas versiones y todavía no están disponibles:</p>
+    <ul>
+      <li>Quiz de identificación con imágenes y retroalimentación.</li>
+      <li>Guía de lectura sistemática del frotis (zona de monocapa, objetivo 100X, qué evaluar primero).</li>
+      <li>Comparador lado a lado y clave de identificación («¿qué estoy viendo?»).</li>
+      <li>Glosario con etimología y casos clínicos breves.</li>
+    </ul>
+  </section>
+</Base>

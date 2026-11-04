@@ -1,0 +1,19 @@
+# Dependencias y salida de compilación (nunca se suben)
+node_modules/
+dist/
+.astro/
+
+# Registros y archivos de entorno
+npm-debug.log*
+.env
+.env.*
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Respaldos y temporales
+*.bak
+*.tmp
+__pycache__/

@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Estado from '../../components/Estado.astro';
+import { url, enfermedades, TIPO } from '../../lib/datos';
+
+const lista = await enfermedades();
+const grupos = [
+  { tipo: 'enfermedad', titulo: 'Enfermedades y agrupaciones' },
+  { tipo: 'sindrome', titulo: 'Síndrome' },
+  { tipo: 'artefacto', titulo: 'Artefacto de preparación' },
+] as const;
+---
+
+<Base titulo="Enfermedades y contextos" descripcion="Enfermedades, síndrome y artefacto asociados a las morfologías eritrocitarias en caninos y felinos.">
+  <h1>Enfermedades y contextos</h1>
+  <p>
+    Parta de la enfermedad y vea qué morfologías se esperan en el frotis. Estas páginas de apoyo agrupan las
+    asociaciones descritas en la tesis; la definición clínica de cada condición está pendiente.
+  </p>
+
+  {
+    grupos.map((g) => {
+      const items = lista.filter((e) => e.data.tipo === g.tipo);
+      return (
+        <section>
+          <h2>{g.titulo}</h2>
+          <ul class="rejilla">
+            {items.map((e) => (
+              <li class="tarjeta">
+                <div class="cuerpo">
+                  <p class="codigo">{e.data.codigo} · {TIPO[e.data.tipo]}</p>
+                  <h3><a href={url(`enfermedades/${e.id}`)}>{e.data.titulo}</a></h3>
+                  <p>{e.data.morfologias.length} {e.data.morfologias.length === 1 ? 'morfología asociada' : 'morfologías asociadas'}</p>
+                  <div class="badges">
+                    <Estado estado={e.data.estadoRevision} />
+                    {e.data.especies.length === 1 && <span class="badge pendiente">Solo {e.data.especies[0]}</span>}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    })
+  }
+</Base>

@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { url, VERSION } from '../lib/datos';
+---
+
+<Base titulo="Acerca, créditos y cómo citar" descripcion="Créditos, licencia y forma provisional de citar el atlas de morfología eritrocitaria.">
+  <h1>Acerca del atlas</h1>
+
+  <div class="prose">
+    <p>
+      Atlas digital interactivo de morfología eritrocitaria en caninos y felinos, pensado para estudiantes y
+      clínicos veterinarios. Funciona en el navegador de Windows, macOS, Linux, iPad y teléfonos. Versión actual: beta
+      {VERSION}.
+    </p>
+
+    <h2>Créditos</h2>
+    <ul>
+      <li>
+        <strong>María Himaraya Luna Coello</strong>: autora intelectual de la tesis y del atlas, base del contenido
+        científico.
+      </li>
+      <li>
+        <strong>Juan David Báez Sotomayor</strong>: diseño, ejecución, programación y puesta en marcha del atlas
+        digital; autor intelectual del diseño.
+      </li>
+      <li>Universidad Central del Ecuador, Facultad de Medicina Veterinaria y Zootecnia.</li>
+    </ul>
+
+    <h2>Licencia</h2>
+    <p>
+      El código del sitio se publica bajo licencia MIT. La licencia del contenido (textos e imágenes) está por
+      acordar con la autora; hasta entonces, el contenido no puede reutilizarse sin permiso. Se propone Creative
+      Commons BY-NC 4.0.
+    </p>
+
+    <h2>Cómo citar (formato provisional)</h2>
+    <p>
+      Luna Coello, M. H. y Báez Sotomayor, J. D. (2026). <em>Atlas de morfología eritrocitaria en caninos y
+      felinos</em> (versión beta {VERSION}) [Sitio web]. Universidad Central del Ecuador.
+      https://juanda992.github.io/atlas-eritrocitario/
+    </p>
+    <p>El orden de autoría y la cita definitiva se acordarán antes de la versión 1.0, que tendrá DOI en Zenodo.</p>
+
+    <h2>Errores y sugerencias</h2>
+    <p>
+      Puede avisar de un error o sugerir un cambio en
+      <a href="https://github.com/JuanDa992/atlas-eritrocitario/issues" rel="noopener">la página de incidencias del proyecto</a>.
+    </p>
+
+    <p>Consulte también <a href={url('metodologia')}>Método y fuentes</a> y la <a href={url('bibliografia')}>bibliografía</a>.</p>
+  </div>
+</Base>

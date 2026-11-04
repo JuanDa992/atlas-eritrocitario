@@ -1,0 +1,22 @@
+﻿id_imagen,codigo_morfologia,archivo,origen,sha256,especie,raza,linea_celular,hallazgo,contexto_clinico_caso,tincion,aumento,microscopio,camara,escala_um,autor_foto,fecha_captura,id_muestra,calidad_enfoque,calidad_exposicion,artefactos_tincion,validado_por,fecha_validacion,licencia_uso,observaciones
+IMG0001,M01,IMG0001_M01_macrocito.jpg,enfermedades_final.docx (media/image1.jpeg),881768973967d16b,,,eritroide,macrocito,,,,,,,,,,,,,,,,
+IMG0002,M02,IMG0002_M02_microcito.png,enfermedades_final.docx (media/image2.png),f9f4bee3e4c6e4aa,,,eritroide,microcito,,,,,,,,,,,,,,,,
+IMG0003,M03,IMG0003_M03_hipocromasia.jpg,enfermedades_final.docx (media/image3.jpeg),b4736ccbde75ce5a,,,eritroide,hipocromasia,,,,,,,,,,,,,,,,
+IMG0004,M22,IMG0004_M22_policromatofilos.jpg,enfermedades_final.docx (media/image4.jpeg),f114b5f0a5a12d63,,,eritroide,policromatofilos,,,,,,,,,,,,,,,,
+IMG0005,M05,IMG0005_M05_efecto-rouleaux.png,enfermedades_final.docx (media/image5.png),7a0d461f60d6625b,,,eritroide,efecto-rouleaux,,,,,,,,,,,,,,,,Marca de agua de IA (estrella de Gemini) en la esquina inferior derecha: verificar si la imagen fue generada o editada con IA; no apta para el atlas hasta confirmar origen.
+IMG0006,M06,IMG0006_M06_aglutinacion.png,enfermedades_final.docx (media/image6.png),35cc10ea83f97dac,,,eritroide,aglutinacion,,,,,,,,,,,,,,,,Marca de agua de IA (estrella de Gemini) en la esquina inferior derecha: verificar origen; no apta hasta confirmar.
+IMG0007,M07,IMG0007_M07_acantocitos.jpg,enfermedades_final.docx (media/image7.jpeg),9cbc6ccb326b1b68,,,eritroide,acantocitos,,,,,,,,,,,,,,,,"Casi idéntica a IMG0008 (misma foto, diferencia media 0,13/255): la misma imagen se usa para acantocitos y codocitos."
+IMG0008,M08,IMG0008_M08_codocitos.jpg,enfermedades_final.docx (media/image8.jpeg),5850fbe2bf0a6723,,,eritroide,codocitos,,,,,,,,,,,,,,,,Casi idéntica a IMG0007: reemplazar por una fotografía propia de codocitos.
+IMG0009,M09,IMG0009_M09_esquistocitos.png,enfermedades_final.docx (media/image9.png),e2b9d19f6d5ecc3b,,,eritroide,esquistocitos,,,,,,,,,,,,,,,,
+IMG0010,M10,IMG0010_M10_excentrocitos.jpg,enfermedades_final.docx (media/image10.jpeg),bb1d6c5b039ada9e,,,eritroide,excentrocitos,,,,,,,,,,,,,,,,
+IMG0011,M11,IMG0011_M11_equinocitos.jpg,enfermedades_final.docx (media/image11.jpeg),bab510cf40d623f2,,,eritroide,equinocitos,,,,,,,,,,,,,,,,
+IMG0012,M12,IMG0012_M12_equinoeliptocitos.jpg,enfermedades_final.docx (media/image12.jpeg),0c232b688d16b5ae,,,eritroide,equinoeliptocitos,,,,,,,,,,,,,,,,
+IMG0013,M13,IMG0013_M13_eliptocitos.jpg,enfermedades_final.docx (media/image13.jpg),87dcae8559fb105a,,,eritroide,eliptocitos,,,,,,,,,,,,,,,,
+IMG0014,M14,IMG0014_M14_dacriocitos.jpg,enfermedades_final.docx (media/image14.jpeg),04b9cad5a8a14d43,,,eritroide,dacriocitos,,,,,,,,,,,,,,,,
+IMG0015,M15,IMG0015_M15_queratocitos.jpg,enfermedades_final.docx (media/image15.jpeg),1a424209989099b8,,,eritroide,queratocitos,,,,,,,,,,,,,,,,
+IMG0016,M16,IMG0016_M16_estomatocitos.jpg,enfermedades_final.docx (media/image16.jpg),b921495618eda9ed,,,eritroide,estomatocitos,,,,,,,,,,,,,,,,
+IMG0017,M17,IMG0017_M17_esferocitos.jpg,enfermedades_final.docx (media/image17.jpeg),3af75a2449a550c0,,,eritroide,esferocitos,,,,,,,,,,,,,,,,
+IMG0018,M18,IMG0018_M18_celulas-fantasma.png,enfermedades_final.docx (media/image18.png),174dbbb333fc6285,,,eritroide,celulas-fantasma,,,,,,,,,,,,,,,,
+IMG0019,M19,IMG0019_M19_corpusculos-heinz.jpg,enfermedades_final.docx (media/image19.jpeg),c2f806a8f68bb661,,,eritroide,corpusculos-heinz,,,,,,,,,,,,,,,,
+IMG0020,M20,IMG0020_M20_corpusculos-howell-jolly.jpg,enfermedades_final.docx (media/image20.jpeg),705bff90bede6f28,,,eritroide,corpusculos-howell-jolly,,,,,,,,,,,,,,,,
+IMG0021,M21,IMG0021_M21_punteado-basofilo.jpg,enfermedades_final.docx (media/image21.jpeg),ea3ea660e25b1673,,,eritroide,punteado-basofilo,,,,,,,,,,,,,,,,

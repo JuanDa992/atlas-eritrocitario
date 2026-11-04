@@ -1,0 +1,9 @@
+---
+import { ESTADO } from '../lib/datos';
+interface Props {
+  estado: keyof typeof ESTADO;
+}
+const e = ESTADO[Astro.props.estado];
+---
+
+<span class={`badge ${e.clase}`}><span aria-hidden="true">{e.icono}</span> {e.texto}</span>

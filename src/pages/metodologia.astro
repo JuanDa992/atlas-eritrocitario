@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/datos';
+---
+
+<Base titulo="Método y fuentes" descripcion="De dónde sale el contenido del atlas, cómo se preparó y qué falta por validar.">
+  <h1>Método y fuentes</h1>
+  <p>
+    Esta página explica de dónde sale el contenido de la beta y qué falta por validar. Se ampliará con el protocolo
+    de captura de imágenes y los resultados de la validación antes de la versión 1.0.
+  </p>
+
+  <div class="prose">
+    <h2>Fuente principal</h2>
+    <p>
+      El contenido parte de la tesis de María Himaraya Luna Coello (2026), <em>Diseño de un atlas digital de
+      hematología veterinaria: identificación, análisis morfológico de eritrocitos y asociación clínica en especies
+      menores</em>, Universidad Central del Ecuador. La selección de la literatura de la tesis siguió un diagrama
+      PRISMA, que se incorporará a esta página. Las obras citadas dentro de la tesis se conservan como citas
+      secundarias hasta consultar cada fuente original.
+    </p>
+
+    <h2>Cómo se preparó el contenido</h2>
+    <ol>
+      <li>Se tomó la tabla final de morfologías de la tesis: 21 alteraciones, cada una con su rasgo descriptivo.</li>
+      <li>Se extrajeron de los cuadros de la tesis las enfermedades, el síndrome y el artefacto asociados a cada morfología.</li>
+      <li>
+        Se redactó un borrador de ficha por morfología y una página de apoyo por enfermedad o agrupación, con la
+        trazabilidad de cada afirmación hacia el pasaje de la tesis.
+      </li>
+      <li>
+        Para esta beta se limpió la redacción (texto repetido, restos del generador, jerga interna) y se ocultaron las
+        secciones sin contenido. Los pendientes de cada ficha siguen visibles al final de la página.
+      </li>
+    </ol>
+
+    <h2>Criterios para las imágenes</h2>
+    <ul>
+      <li>La imagen de cada ficha debe ser un caso real visto al microscopio; se prefiere el objetivo de 100× con inmersión.</li>
+      <li>Se conserva la fotografía original sin marcas y se anota en una capa aparte.</li>
+      <li>Cada imagen llevará especie, aumento, tinción, escala calibrada, autor y licencia en sus metadatos.</li>
+      <li>
+        <strong>Estado actual:</strong> las imágenes de la beta son provisionales (tomadas de la tesis) y no tienen
+        especie ni escala registradas. No hay todavía fotografías felinas identificadas.
+      </li>
+    </ul>
+
+    <h2>Estado de revisión</h2>
+    <p>
+      Todas las fichas figuran como «En revisión». Una ficha pasará a «Revisado» cuando tenga un especialista
+      responsable, fecha y evidencia de la revisión, visibles en la propia ficha.
+    </p>
+
+    <h2>Qué no hace este atlas</h2>
+    <p>
+      Las asociaciones entre morfologías y enfermedades que se muestran proceden de la tesis; no confirman un
+      diagnóstico individual ni fijan sensibilidad, especificidad o jerarquía diagnóstica. La interpretación clínica
+      siempre debe apoyarse en el cuadro completo del paciente.
+    </p>
+
+    <p>Más información en <a href={url('acerca')}>Acerca</a> y en la <a href={url('bibliografia')}>bibliografía</a>.</p>
+  </div>
+</Base>

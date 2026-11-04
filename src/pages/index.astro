@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import { url, morfologias, enfermedades, VERSION } from '../lib/datos';
+
+const m = await morfologias();
+const e = await enfermedades();
+const nEnf = e.filter((x) => x.data.tipo === 'enfermedad').length;
+---
+
+<Base titulo="Atlas de morfología eritrocitaria" descripcion="Atlas digital de morfología eritrocitaria en caninos y felinos para estudiantes y clínicos. Versión beta en revisión.">
+  <section class="hero">
+    <p class="codigo">Versión beta {VERSION}</p>
+    <h1>Atlas de morfología eritrocitaria en caninos y felinos</h1>
+    <p class="lead">
+      Reconozca las alteraciones de los eritrocitos en el frotis sanguíneo, distíngalas de las que se le parecen y
+      relaciónelas con las enfermedades en las que aparecen.
+    </p>
+  </section>
+
+  <section class="entradas" aria-label="Elija cómo usar el atlas">
+    <a class="entrada" href={url('aprender')}>
+      <h2>Aprender</h2>
+      <p>Una ruta ordenada por tipo de alteración y los pares de morfologías que más se confunden.</p>
+    </a>
+    <a class="entrada" href={url('morfologias')}>
+      <h2>Consultar</h2>
+      <p>Catálogo con filtros: busque una morfología por nombre, sinónimo o rasgo y vaya directo a su ficha.</p>
+    </a>
+    <a class="entrada" href={url('enfermedades')}>
+      <h2>Enfermedades</h2>
+      <p>Parta de la enfermedad o del síndrome y vea qué morfologías se esperan en el frotis.</p>
+    </a>
+  </section>
+
+  <ul class="cifras" aria-label="Contenido de la beta">
+    <li><strong>{m.length}</strong><span>fichas de morfología</span></li>
+    <li><strong>{nEnf}</strong><span>enfermedades y agrupaciones</span></li>
+    <li><strong>2</strong><span>páginas de síndrome y artefacto</span></li>
+    <li><strong>0</strong><span>fotografías felinas (pendientes)</span></li>
+  </ul>
+
+  <section class="caja" aria-labelledby="estado-beta">
+    <h2 id="estado-beta">Qué significa «beta»</h2>
+    <ul>
+      <li>El texto procede de la tesis y está <strong>en revisión</strong> por especialistas; cada ficha lo indica.</li>
+      <li>Las imágenes son <strong>provisionales</strong>: se reemplazarán por fotografías con protocolo, escala y metadatos.</li>
+      <li>Las fotografías de <strong>felinos están pendientes</strong>; el texto sobre el gato se marca como tal.</li>
+      <li>¿Encontró un error? Use el enlace «Reportar un error» al pie de cada página.</li>
+    </ul>
+  </section>
+</Base>

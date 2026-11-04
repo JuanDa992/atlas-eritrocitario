@@ -1,0 +1,157 @@
+# Informe de migración
+
+Morfologías migradas: 21 · Páginas de apoyo: 21
+
+## Resumen de limpieza
+
+- comparaciones: 21
+- duplicados: 22
+- jerga: 40
+- notas: 16
+- notas_fragmento_descartado: 4
+- ocultas: 40
+- parrafos_modificados: 108
+- truncados: 1
+
+## Detalle
+
+- M01: etiqueta interna «Tabla final del atlas» retirada
+- M01: cita repetida en «Cómo reconocerlos» eliminada
+- M01: oración editorial movida a notas «**Observación:** el umbral felino de macrocito (5,6 µm) qued…»
+- M01: «Comparación entre especies» reescrita en 3 líneas
+- M01: «Calidad de la muestra» pendiente, oculta
+- M01: «Gradación e interpretación» sin contenido, oculta
+- M02: etiqueta interna «Tabla final del atlas» retirada
+- M02: cita repetida en «Cómo reconocerlos» eliminada
+- M02: «Comparación entre especies» reescrita en 3 líneas
+- M02: «Calidad de la muestra» pendiente, oculta
+- M02: «Gradación e interpretación» sin contenido, oculta
+- M03: etiqueta interna «Tabla final del atlas» retirada
+- M03: cita repetida en «Cómo reconocerlos» eliminada
+- M03: «Comparación entre especies» reescrita en 3 líneas
+- M03: «Calidad de la muestra» pendiente, oculta
+- M05: etiqueta interna «Tabla final del atlas» retirada
+- M05: cita repetida en «Cómo reconocerlos» eliminada
+- M05: «Comparación entre especies» reescrita en 3 líneas
+- M05: «Gradación e interpretación» sin contenido, oculta
+- M06: etiqueta interna «Tabla final del atlas» retirada
+- M06: cita repetida en «Cómo reconocerlos» eliminada
+- M06: «Comparación entre especies» reescrita en 3 líneas
+- M06: «Calidad de la muestra» pendiente, oculta
+- M06: «Gradación e interpretación» sin contenido, oculta
+- M07: etiqueta interna «Tabla final del atlas» retirada
+- M07: cita repetida en «Cómo reconocerlos» eliminada
+- M07: «Comparación entre especies» reescrita en 3 líneas
+- M07: «Calidad de la muestra» pendiente, oculta
+- M07: «Gradación e interpretación» sin contenido, oculta
+- M08: etiqueta interna «Tabla final del atlas» retirada
+- M08: cita repetida en «Cómo reconocerlos» eliminada
+- M08: texto cortado, se recorta tras «álido y anillo periférico de hemoglobina»
+- M08: «Comparación entre especies» reescrita en 3 líneas
+- M08: «Cómo distinguirlos» pendiente, oculta
+- M08: «Calidad de la muestra» pendiente, oculta
+- M08: «Gradación e interpretación» sin contenido, oculta
+- M09: etiqueta interna «Tabla final del atlas» retirada
+- M09: cita repetida en «Cómo reconocerlos» eliminada
+- M09: «Comparación entre especies» reescrita en 3 líneas
+- M09: «Calidad de la muestra» pendiente, oculta
+- M09: «Gradación e interpretación» sin contenido, oculta
+- M10: etiqueta interna «Tabla final del atlas» retirada
+- M10: cita repetida en «Cómo reconocerlos» eliminada
+- M10: «Comparación entre especies» reescrita en 3 líneas
+- M10: «Calidad de la muestra» pendiente, oculta
+- M10: «Gradación e interpretación» sin contenido, oculta
+- M11: etiqueta interna «Tabla final del atlas» retirada
+- M11: cita repetida en «Cómo reconocerlos» eliminada
+- M11: «Comparación entre especies» reescrita en 3 líneas
+- M11: «Gradación e interpretación» sin contenido, oculta
+- M12: etiqueta interna «Tabla final del atlas» retirada
+- M12: cita repetida en «Cómo reconocerlos» eliminada
+- M12: «Comparación entre especies» reescrita en 3 líneas
+- M12: «Calidad de la muestra» pendiente, oculta
+- M12: «Gradación e interpretación» sin contenido, oculta
+- M13: etiqueta interna «Tabla final del atlas» retirada
+- M13: cita repetida en «Cómo reconocerlos» eliminada
+- M13: «Comparación entre especies» reescrita en 3 líneas
+- M13: «Calidad de la muestra» pendiente, oculta
+- M13: «Gradación e interpretación» sin contenido, oculta
+- M14: etiqueta interna «Tabla final del atlas» retirada
+- M14: cita repetida en «Cómo reconocerlos» eliminada
+- M14: «Comparación entre especies» reescrita en 3 líneas
+- M14: «Calidad de la muestra» pendiente, oculta
+- M14: «Gradación e interpretación» sin contenido, oculta
+- M15: etiqueta interna «Tabla final del atlas» retirada
+- M15: cita repetida en «Cómo reconocerlos» eliminada
+- M15: «Comparación entre especies» reescrita en 3 líneas
+- M15: «Calidad de la muestra» pendiente, oculta
+- M15: «Gradación e interpretación» sin contenido, oculta
+- M16: etiqueta interna «Tabla final del atlas» retirada
+- M16: cita repetida en «Cómo reconocerlos» eliminada
+- M16: «Comparación entre especies» reescrita en 3 líneas
+- M16: «Gradación e interpretación» sin contenido, oculta
+- M17: etiqueta interna «Tabla final del atlas» retirada
+- M17: cita repetida en «Cómo reconocerlos» eliminada
+- M17: «Comparación entre especies» reescrita en 3 líneas
+- M17: «Calidad de la muestra» pendiente, oculta
+- M17: «Gradación e interpretación» sin contenido, oculta
+- M18: etiqueta interna «Tabla final del atlas» retirada
+- M18: cita repetida en «Cómo reconocerlos» eliminada
+- M18: «Comparación entre especies» reescrita en 3 líneas
+- M18: «Cómo distinguirlos» pendiente, oculta
+- M18: «Calidad de la muestra» pendiente, oculta
+- M18: «Gradación e interpretación» sin contenido, oculta
+- M19: etiqueta interna «Tabla final del atlas» retirada
+- M19: cita repetida en «Cómo reconocerlos» eliminada
+- M19: «Comparación entre especies» reescrita en 3 líneas
+- M19: «Calidad de la muestra» pendiente, oculta
+- M19: «Gradación e interpretación» sin contenido, oculta
+- M19: oración editorial movida a notas «Falta contrastar población, técnica y fuentes originales.…»
+- M19: «Límites de la información» movida a notas
+- M20: etiqueta interna «Tabla final del atlas» retirada
+- M20: cita repetida en «Cómo reconocerlos» eliminada
+- M20: «Comparación entre especies» reescrita en 3 líneas
+- M20: «Calidad de la muestra» pendiente, oculta
+- M20: «Gradación e interpretación» sin contenido, oculta
+- M21: etiqueta interna «Tabla final del atlas» retirada
+- M21: cita repetida en «Cómo reconocerlos» eliminada
+- M21: «Comparación entre especies» reescrita en 3 líneas
+- M21: oración editorial movida a notas «La Tabla 2 incluye una duplicación del texto «Patología asoc…»
+- M21: «Calidad de la muestra» pendiente, oculta
+- M21: «Gradación e interpretación» sin contenido, oculta
+- M22: etiqueta interna «Tabla final del atlas» retirada
+- M22: cita repetida en «Cómo reconocerlos» eliminada
+- M22: oración editorial movida a notas «La Tabla 2 utiliza «violeta o magenta intenso uniforme» y lo…»
+- M22: oración editorial movida a notas «Se mantienen ambas descripciones atribuidas a sus pasajes; c…»
+- M22: oración editorial movida a notas «Sin fotografía en la Fase 2 de la tesis; falta registrar imá…»
+- M22: «Comparación entre especies» reescrita en 3 líneas
+- M22: oración editorial movida a notas «La guía del proyecto recomienda reservar «hipercromía» para …»
+- M22: oración editorial movida a notas «**Contradicción en la tesis:** el marco teórico dice que «su…»
+- M22: oración editorial movida a notas «No se resuelve aquí.…»
+- M22: «Calidad de la muestra» pendiente, oculta
+- M22: «Gradación e interpretación» sin contenido, oculta
+- A01: oración editorial movida a notas «**Las cifras de no coinciden; pendiente de aclarar con la au…»
+- E01: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E02: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E02: oración editorial movida a notas «Discrepancia en la tesis: el marco teórico cita 5–10 % y otr…»
+- E03: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E05: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E07: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E08: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E09: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E09: oración editorial movida a notas «Discrepancia documentada: la tesis da los esquistocitos para…»
+- E10: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E11: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E12: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E13: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E14: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E15: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E16: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E17: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E18: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E19: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E20: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- E21: texto genérico de «Definición y alcance» retirado (marcado como definición pendiente)
+- S01: oración editorial movida a notas «**Información contradictoria.** El marco teórico dice que la…»
+- S01: oración editorial movida a notas «No se resuelve aquí.…»
+- S01: oración editorial movida a notas «La discrepancia permanece abierta; aplicar los criterios de …»
+- S01: sección duplicada «Definición y reconocimiento del patrón» omitida

@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/datos';
+---
+
+<Base titulo="Página no encontrada">
+  <h1>Página no encontrada</h1>
+  <p>La dirección no existe o cambió. Pruebe con el <a href={url('morfologias')}>catálogo</a> o la <a href={url('buscar')}>búsqueda</a>.</p>
+</Base>
