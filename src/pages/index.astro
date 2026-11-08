@@ -1,10 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { url, morfologias, enfermedades, VERSION, REVISION } from '../lib/datos';
-
-const m = await morfologias();
-const e = await enfermedades();
-const nEnf = e.filter((x) => x.data.tipo === 'enfermedad').length;
+import { url, VERSION } from '../lib/datos';
 ---
 
 <Base titulo="Atlas de morfología eritrocitaria" descripcion="Atlas digital de morfología eritrocitaria en caninos y felinos para estudiantes y clínicos. Versión beta en revisión.">
@@ -31,17 +27,6 @@ const nEnf = e.filter((x) => x.data.tipo === 'enfermedad').length;
       <p>Parta de la enfermedad o del síndrome y vea qué morfologías se esperan en el frotis.</p>
     </a>
   </section>
-
-  {
-    REVISION && (
-      <ul class="cifras solo-revision" aria-label="Contenido de la beta">
-        <li><strong>{m.length}</strong><span>fichas de morfología</span></li>
-        <li><strong>{nEnf}</strong><span>enfermedades y agrupaciones</span></li>
-        <li><strong>2</strong><span>páginas de síndrome y artefacto</span></li>
-        <li><strong>0</strong><span>fotografías felinas (pendientes)</span></li>
-      </ul>
-    )
-  }
 
   <details class="caja plegable-beta">
     <summary><h2 id="estado-beta">Qué significa «beta»</h2></summary>
