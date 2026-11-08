@@ -2,7 +2,7 @@
 import '@fontsource/atkinson-hyperlegible/400.css';
 import '@fontsource/atkinson-hyperlegible/700.css';
 import '../styles/global.css';
-import { url, VERSION } from '../lib/datos';
+import { url, VERSION, REVISION } from '../lib/datos';
 
 interface Props {
   titulo: string;
@@ -39,6 +39,7 @@ function activo(ruta: string) {
     <meta property="og:type" content="website" />
     <meta name="color-scheme" content="light dark" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    {REVISION && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
     <!-- Aplica el tema guardado antes de pintar la página. Es un archivo externo (no inline) para cumplir la CSP. -->
     <script is:inline src={url('tema-inicial.js')}></script>
@@ -46,6 +47,16 @@ function activo(ruta: string) {
   <body>
     <a class="saltar" href="#contenido">Saltar al contenido</a>
 
+    {
+      REVISION && (
+        <div class="modo-revision" role="note">
+          <div class="wrap">
+            <strong>VERSIÓN DE REVISIÓN · privada.</strong>
+            <span>Muestra códigos, pendientes y notas internas que no aparecen en la versión pública.</span>
+          </div>
+        </div>
+      )
+    }
     <div class="beta" role="note">
       <div class="wrap">
         <strong>Versión beta {VERSION}.</strong>

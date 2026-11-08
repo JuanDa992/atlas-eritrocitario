@@ -1,12 +1,18 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// GitHub Pages: https://juanda992.github.io/atlas-eritrocitario/
+// Dos versiones del mismo sitio (ver scripts/revision.mjs y docs/VERSIONES.md):
+// - Pública (por defecto): GitHub Pages, https://juanda992.github.io/atlas-eritrocitario/
+// - Revisión (PUBLIC_ATLAS_MODO=revision): solo en la PC con `npm run dev:revision`
+//   o `npm run preview:revision`. Usa base '/' y sale en dist-revision/.
 // Si más adelante se usa un dominio propio (p. ej. atlas.uce.edu.ec): quitar `base`,
 // cambiar `site` y añadir public/CNAME.
+const revision = process.env.PUBLIC_ATLAS_MODO === 'revision';
+
 export default defineConfig({
-  site: 'https://juanda992.github.io',
-  base: '/atlas-eritrocitario',
+  site: process.env.ATLAS_SITE ?? 'https://juanda992.github.io',
+  base: revision ? '/' : '/atlas-eritrocitario',
+  outDir: revision ? './dist-revision' : './dist',
   trailingSlash: 'always',
   integrations: [sitemap()],
   // Las fichas no usan bloques de código; se desactiva Shiki (incompatible con CSP).
