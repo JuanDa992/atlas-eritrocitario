@@ -10,17 +10,25 @@ const base = url();
   <p>Escriba un nombre, un sinónimo (también en inglés) o una palabra de la descripción.</p>
 
   <link rel="stylesheet" href={url('pagefind/pagefind-ui.css')} />
-  <div id="busqueda" data-pagefind-ignore></div>
+  <div id="busqueda" data-pagefind-ignore data-base={base}></div>
   <noscript><p>La búsqueda necesita JavaScript. Puede usar el <a href={url('morfologias')}>catálogo</a> en su lugar.</p></noscript>
   <p id="sin-indice" hidden>
     El índice de búsqueda se genera al compilar el sitio (<code>npm run build</code>). En modo desarrollo use el
     <a href={url('morfologias')}>catálogo</a>.
   </p>
 
-  <script is:inline src={url('pagefind/pagefind-ui.js')} onerror="document.getElementById('sin-indice').hidden=false"></script>
-  <script is:inline define:vars={{ base }}>
+  <script is:inline src={url('pagefind/pagefind-ui.js')}></script>
+  <script>
     window.addEventListener('DOMContentLoaded', function () {
-      if (typeof PagefindUI === 'undefined') return;
+      var caja = document.getElementById('busqueda');
+      var base = (caja && caja.dataset.base) || '/';
+      // @ts-ignore: PagefindUI lo define pagefind-ui.js
+      if (typeof PagefindUI === 'undefined') {
+        var aviso = document.getElementById('sin-indice');
+        if (aviso) aviso.hidden = false;
+        return;
+      }
+      // @ts-ignore
       new PagefindUI({
         element: '#busqueda',
         baseUrl: base,

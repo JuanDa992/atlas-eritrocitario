@@ -9,5 +9,24 @@ export default defineConfig({
   base: '/atlas-eritrocitario',
   trailingSlash: 'always',
   integrations: [sitemap()],
+  // Las fichas no usan bloques de código; se desactiva Shiki (incompatible con CSP).
+  markdown: { syntaxHighlight: false },
   build: { format: 'directory' },
+  // Política de seguridad del navegador (CSP). Astro calcula los hashes de los
+  // scripts y estilos y añade la etiqueta <meta> en cada página.
+  security: {
+    csp: {
+      directives: [
+        "default-src 'self'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        "connect-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+      ],
+      scriptDirective: { resources: ["'self'", "'wasm-unsafe-eval'"] },
+      styleDirective: { resources: ["'self'"] },
+    },
+  },
 });
