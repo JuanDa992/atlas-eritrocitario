@@ -5,7 +5,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 
-const dir = 'dist';
+const dir = process.argv[2] ?? 'dist';
 const archivos = [];
 (function recorrer(d) {
   for (const n of readdirSync(d)) {

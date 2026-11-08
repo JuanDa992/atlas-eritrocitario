@@ -1,13 +1,16 @@
 {
   "name": "atlas-eritrocitario",
-  "version": "0.9.0",
+  "version": "0.9.2",
   "private": true,
   "type": "module",
   "description": "Atlas digital de morfología eritrocitaria en caninos y felinos (beta)",
   "scripts": {
     "dev": "astro dev",
+    "dev:revision": "node scripts/revision.mjs dev",
     "build": "astro build && pagefind --site dist && node scripts/verificar-csp.mjs",
+    "build:revision": "node scripts/revision.mjs build",
     "preview": "astro preview",
+    "preview:revision": "node scripts/revision.mjs preview",
     "migrar": "python scripts/migrar_preliminar.py"
   },
   "dependencies": {

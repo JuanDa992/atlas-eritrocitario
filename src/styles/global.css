@@ -757,10 +757,126 @@ table.datos td {
   --pagefind-ui-border-radius: 8px;
 }
 
+
+/* ---------- v0.9.2: versión pública / revisión ---------- */
+.modo-revision {
+  background: var(--warn);
+  color: var(--surface);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  padding: 0.45rem 0;
+}
+.modo-revision .wrap {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+.otros-nombres {
+  color: var(--muted);
+  margin: 0.2rem 0 0;
+  font-size: 0.95rem;
+}
+.etiqueta-provisional {
+  font-size: 0.78rem;
+  padding: 0.05rem 0.5rem;
+  margin-left: 0.3rem;
+  white-space: nowrap;
+}
+/* Tarjeta del trío que aún está pendiente (solo se ve en la versión de revisión). */
+.trio > div.pendiente-revision {
+  border-style: dashed;
+  border-color: var(--warn);
+}
+.trio > div.pendiente-revision dd {
+  color: var(--warn);
+  font-style: italic;
+}
+/* Recuadro «Qué significa beta» plegable en la portada. */
+.plegable-beta summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.plegable-beta summary::-webkit-details-marker {
+  display: none;
+}
+.plegable-beta summary::before {
+  content: '▸';
+  color: var(--accent);
+  font-size: 1.1rem;
+  transition: transform 0.15s;
+}
+.plegable-beta[open] summary::before {
+  transform: rotate(90deg);
+}
+.plegable-beta summary h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.plegable-beta summary:focus-visible {
+  outline: 3px solid var(--focus);
+  border-radius: 4px;
+}
+table.datos th[scope='row'] {
+  font-weight: 700;
+}
+table.datos td[data-campo='medida'] {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 @media (max-width: 40rem) {
   html {
     font-size: 17px;
   }
+  /* Tabla de frecuencia: en el móvil cada fila es una tarjeta (sin columnas que se corten). */
+  table.tabla-apilable thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  table.tabla-apilable,
+  table.tabla-apilable tbody {
+    display: block;
+  }
+  table.tabla-apilable tr {
+    display: block;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  table.tabla-apilable th,
+  table.tabla-apilable td {
+    display: inline;
+    border: 0;
+    padding: 0;
+  }
+  table.tabla-apilable td[data-campo='dato']::before,
+  table.tabla-apilable td[data-campo='valor']::before {
+    content: ' · ';
+    color: var(--muted);
+    font-weight: 400;
+  }
+  table.tabla-apilable td[data-campo='valor'] {
+    font-weight: 700;
+    color: var(--accent);
+  }
+  table.tabla-apilable td[data-campo='valor'] {
+    white-space: nowrap;
+  }
+  table.tabla-apilable td[data-campo='medida'] {
+    display: block;
+    margin-top: 0.2rem;
+    font-style: italic;
+  }
+  table.tabla-apilable td[data-campo='medida']:empty {
+    display: none;
+  }
+
   h1 {
     font-size: 1.65rem;
   }
@@ -772,6 +888,7 @@ table.datos td {
   header.sitio,
   footer.sitio,
   .beta,
+  .modo-revision,
   .tema,
   .anterior-siguiente,
   .filtros {

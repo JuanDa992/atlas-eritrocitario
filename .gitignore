@@ -1,6 +1,7 @@
 # Dependencias y salida de compilación (nunca se suben)
 node_modules/
 dist/
+dist-revision/
 .astro/
 
 # Registros y archivos de entorno

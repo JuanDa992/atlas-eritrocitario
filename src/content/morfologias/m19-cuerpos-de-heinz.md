@@ -1,6 +1,6 @@
 ---
 codigo: M19
-titulo: Corpúsculos de Heinz (cuerpos de Heinz)
+titulo: Corpúsculos de Heinz
 nombreIngles: Heinz body
 sinonimos:
 - corpúsculos de Heinz

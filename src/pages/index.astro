@@ -1,10 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { url, morfologias, enfermedades, VERSION } from '../lib/datos';
-
-const m = await morfologias();
-const e = await enfermedades();
-const nEnf = e.filter((x) => x.data.tipo === 'enfermedad').length;
+import { url, VERSION } from '../lib/datos';
 ---
 
 <Base titulo="Atlas de morfología eritrocitaria" descripcion="Atlas digital de morfología eritrocitaria en caninos y felinos para estudiantes y clínicos. Versión beta en revisión.">
@@ -32,20 +28,13 @@ const nEnf = e.filter((x) => x.data.tipo === 'enfermedad').length;
     </a>
   </section>
 
-  <ul class="cifras" aria-label="Contenido de la beta">
-    <li><strong>{m.length}</strong><span>fichas de morfología</span></li>
-    <li><strong>{nEnf}</strong><span>enfermedades y agrupaciones</span></li>
-    <li><strong>2</strong><span>páginas de síndrome y artefacto</span></li>
-    <li><strong>0</strong><span>fotografías felinas (pendientes)</span></li>
-  </ul>
-
-  <section class="caja" aria-labelledby="estado-beta">
-    <h2 id="estado-beta">Qué significa «beta»</h2>
+  <details class="caja plegable-beta">
+    <summary><h2 id="estado-beta">Qué significa «beta»</h2></summary>
     <ul>
       <li>El texto procede de la tesis y está <strong>en revisión</strong> por especialistas; cada ficha lo indica.</li>
       <li>Las imágenes son <strong>provisionales</strong>: se reemplazarán por fotografías con protocolo, escala y metadatos.</li>
       <li>Las fotografías de <strong>felinos están pendientes</strong>; el texto sobre el gato se marca como tal.</li>
       <li>¿Encontró un error? Use el enlace «Reportar un error» al pie de cada página.</li>
     </ul>
-  </section>
+  </details>
 </Base>

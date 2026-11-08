@@ -11,6 +11,18 @@ export function url(ruta = ''): string {
 
 export const VERSION = '0.9';
 
+/**
+ * Modo de compilación. «publica» es lo que ve cualquiera en GitHub Pages;
+ * «revision» muestra además códigos internos, pendientes, notas editoriales
+ * y datos técnicos de las imágenes. Se fija con PUBLIC_ATLAS_MODO=revision.
+ */
+export const REVISION = import.meta.env.PUBLIC_ATLAS_MODO === 'revision';
+
+/** Un texto está pendiente si empieza por «Pendiente» (p. ej. «Pendiente de redactar con fuente.»). */
+export function esPendiente(texto?: string | null): boolean {
+  return !texto || /^\s*pendiente\b/i.test(texto);
+}
+
 export const ESTADO = {
   borrador: { texto: 'En revisión', icono: '◆', clase: 'revision' },
   en_revision: { texto: 'En revisión', icono: '◆', clase: 'revision' },
