@@ -1,33 +1,47 @@
 name: Publicar en GitHub Pages
 
+# - push a main: compila y publica.
+# - pull request hacia main: solo compila (comprueba que la rama funciona, no publica).
+# - workflow_dispatch: permite lanzarlo a mano desde la pestaña Actions.
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
+# Por defecto ningún trabajo puede escribir; cada trabajo pide solo lo que necesita.
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v4
-      # Instala dependencias, ejecuta `npm run build` (Astro + Pagefind) y sube dist/
-      - uses: withastro/action@v5
+      # Las acciones se fijan por SHA (inmutable). El comentario indica la versión.
+      # Dependabot propone las actualizaciones como pull requests.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Instala dependencias, ejecuta `npm run build` (Astro + Pagefind + verificación CSP) y sube dist/
+      - uses: withastro/action@a8b97df764791eb61fbf3338ef713b0e61ae05c5 # v6.1.4
 
   deploy:
+    # Solo se publica desde main, nunca desde un pull request.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

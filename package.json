@@ -6,17 +6,20 @@
   "description": "Atlas digital de morfología eritrocitaria en caninos y felinos (beta)",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build && pagefind --site dist && node scripts/verificar-csp.mjs",
     "preview": "astro preview",
     "migrar": "python scripts/migrar_preliminar.py"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource/atkinson-hyperlegible": "^5.2.0",
-    "astro": "^5.18.2",
-    "sharp": "^0.34.0"
+    "astro": "^7.4.7",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "pagefind": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=22.23.4"
   }
 }

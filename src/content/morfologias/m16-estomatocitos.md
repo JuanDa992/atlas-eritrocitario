@@ -35,8 +35,7 @@ referencias:
 - luna-coello-2026-tesis
 versionContenido: '0.3'
 fechaContenido: '2026-10-26'
-diferenciales:
-- a01-artefacto-preparacion-almacenamiento
+diferenciales: []
 ---
 
 ## Cómo reconocerlo

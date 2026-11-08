@@ -38,13 +38,10 @@ function activo(ruta: string) {
     <meta property="og:description" content={descripcion} />
     <meta property="og:type" content="website" />
     <meta name="color-scheme" content="light dark" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
-    <script is:inline>
-      try {
-        var t = localStorage.getItem('atlas-tema');
-        if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
-      } catch (e) {}
-    </script>
+    <!-- Aplica el tema guardado antes de pintar la página. Es un archivo externo (no inline) para cumplir la CSP. -->
+    <script is:inline src={url('tema-inicial.js')}></script>
   </head>
   <body>
     <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -60,7 +57,7 @@ function activo(ruta: string) {
       <div class="wrap">
         <a class="marca" href={url()}>
           <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true">
-            <circle cx="32" cy="32" r="28" fill="currentColor" style="color: var(--accent)"></circle>
+            <circle cx="32" cy="32" r="28" fill="var(--accent)"></circle>
             <ellipse cx="32" cy="32" rx="12" ry="9" fill="var(--accent-soft)"></ellipse>
           </svg>
           <span>
@@ -117,7 +114,7 @@ function activo(ruta: string) {
       </div>
     </footer>
 
-    <script is:inline>
+    <script>
       (function () {
         var b = document.getElementById('tema');
         if (!b) return;

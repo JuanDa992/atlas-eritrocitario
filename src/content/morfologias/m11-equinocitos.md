@@ -43,7 +43,6 @@ fechaContenido: '2026-10-26'
 diferenciales:
 - m07-acantocitos
 - m12-equinoeliptocitos
-- a01-artefacto-preparacion-almacenamiento
 ---
 
 ## Cómo reconocerlo
