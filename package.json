@@ -13,10 +13,13 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource/atkinson-hyperlegible": "^5.2.0",
-    "astro": "^5.18.2",
-    "sharp": "^0.34.0"
+    "astro": "^7.4.7",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "pagefind": "^1.4.0"
+  },
+  "engines": {
+    "node": ">=22.23.4"
   }
 }
