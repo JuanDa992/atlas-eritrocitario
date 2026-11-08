@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Estado from '../../components/Estado.astro';
-import { url, enfermedades, TIPO } from '../../lib/datos';
+import { url, enfermedades, TIPO, REVISION } from '../../lib/datos';
 
 const lista = await enfermedades();
 const grupos = [
@@ -28,7 +28,7 @@ const grupos = [
             {items.map((e) => (
               <li class="tarjeta">
                 <div class="cuerpo">
-                  <p class="codigo">{e.data.codigo} · {TIPO[e.data.tipo]}</p>
+                  <p class="codigo">{REVISION && `${e.data.codigo} · `}{TIPO[e.data.tipo]}</p>
                   <h3><a href={url(`enfermedades/${e.id}`)}>{e.data.titulo}</a></h3>
                   <p>{e.data.morfologias.length} {e.data.morfologias.length === 1 ? 'morfología asociada' : 'morfologías asociadas'}</p>
                   <div class="badges">

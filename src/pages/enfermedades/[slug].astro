@@ -3,7 +3,7 @@ import { getEntry, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Estado from '../../components/Estado.astro';
 import TarjetaMorfologia from '../../components/TarjetaMorfologia.astro';
-import { url, enfermedades, REFERENCIAS, TIPO } from '../../lib/datos';
+import { url, enfermedades, REFERENCIAS, TIPO, REVISION } from '../../lib/datos';
 
 export async function getStaticPaths() {
   const lista = await enfermedades();
@@ -20,11 +20,11 @@ const etiquetaEspecie = { canino: 'Canino', felino: 'Felino' } as const;
 ---
 
 <Base titulo={d.titulo} descripcion={descripcion}>
-  <p class="migas"><a href={url('enfermedades')}>Enfermedades</a> › {d.codigo}</p>
+  <p class="migas"><a href={url('enfermedades')}>Enfermedades</a> › {TIPO[d.tipo]}{REVISION && ` › ${d.codigo}`}</p>
 
   <article class="ficha" data-pagefind-body>
     <header>
-      <p class="codigo">{d.codigo} · {TIPO[d.tipo]}</p>
+      <p class="codigo">{REVISION && `${d.codigo} · `}{TIPO[d.tipo]}</p>
       <h1 data-pagefind-meta="title">{d.titulo}</h1>
       <div class="badges" data-pagefind-ignore>
         <Estado estado={d.estadoRevision} />
@@ -97,13 +97,18 @@ const etiquetaEspecie = { canino: 'Canino', felino: 'Felino' } as const;
       d.frecuencia.length > 0 && (
         <details class="plegable" data-pagefind-ignore>
           <summary>Frecuencia documentada</summary>
-          <table class="datos">
+          <table class="datos tabla-apilable">
             <thead>
               <tr><th scope="col">Especie</th><th scope="col">Dato original</th><th scope="col">Valor consignado (%)</th><th scope="col">Medida</th></tr>
             </thead>
             <tbody>
               {d.frecuencia.map((f) => (
-                <tr><td>{etiquetaEspecie[f.especie]}</td><td>{f.texto}</td><td>{f.valor || '—'}</td><td>{f.medida || '—'}</td></tr>
+                <tr>
+                  <th scope="row" data-campo="especie">{etiquetaEspecie[f.especie]}</th>
+                  <td data-campo="dato">{f.texto}</td>
+                  <td data-campo="valor">{f.valor && f.valor !== 's. d.' ? `${f.valor} %` : 'sin dato'}</td>
+                  <td data-campo="medida">{f.medida && f.medida !== '—' ? f.medida : ''}</td>
+                </tr>
               ))}
             </tbody>
           </table>
@@ -114,7 +119,7 @@ const etiquetaEspecie = { canino: 'Canino', felino: 'Felino' } as const;
     }
 
     {
-      (d.pendientes.length > 0 || d.notas.length > 0) && (
+      REVISION && (d.pendientes.length > 0 || d.notas.length > 0) && (
         <details class="plegable" data-pagefind-ignore>
           <summary>Estado de esta página: pendientes y notas editoriales</summary>
           <p>Versión de contenido {d.versionContenido} · actualizada el {d.fechaContenido} · borrador en revisión.</p>

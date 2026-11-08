@@ -3,7 +3,7 @@ import { getEntry, render } from 'astro:content';
 import { Image, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Estado from '../../components/Estado.astro';
-import { url, morfologias, CATEGORIAS, REFERENCIAS, TIPO } from '../../lib/datos';
+import { url, morfologias, CATEGORIAS, REFERENCIAS, TIPO, REVISION, esPendiente } from '../../lib/datos';
 
 export async function getStaticPaths() {
   const lista = await morfologias();
@@ -21,19 +21,57 @@ const grande = d.imagen ? await getImage({ src: d.imagen.src, width: 1800, forma
 const difs = (await Promise.all(d.diferenciales.map((r) => getEntry(r)))).filter(Boolean);
 const rels = (await Promise.all(d.relacionadas.map((r) => getEntry(r)))).filter(Boolean);
 const descripcion = `${d.titulo}: ${d.rasgo}. Ficha del atlas de morfología eritrocitaria en caninos y felinos.`;
+
+// Tarjetas del trío. En la versión pública se ocultan las que aún dicen «Pendiente…»;
+// en la de revisión se muestran todas, con la pendiente marcada, para ver el espacio.
+const trio = [
+  { titulo: 'Igual en perro y gato', texto: d.igual },
+  { titulo: 'Qué cambia en el gato', texto: d.gato },
+  { titulo: 'Significado clínico', texto: d.clinico },
+]
+  .map((t) => ({ ...t, pendiente: esPendiente(t.texto) }))
+  .filter((t) => REVISION || !t.pendiente);
+
+// Otros nombres en una sola línea: sinónimos en español + nombre en inglés.
+// Se omite el sinónimo que repite el título y las referencias internas tipo «(ver X02)».
+const sinonimos = d.sinonimos.filter(
+  (x) => x.toLowerCase() !== d.titulo.toLowerCase() && (REVISION || !/\(ver [A-Z]\d{2}\)/.test(x)),
+);
+const otrosNombres = [
+  sinonimos.length > 0 ? `También llamado: ${sinonimos.join(', ')}` : '',
+  d.nombreIngles ? `inglés: ${d.nombreIngles}` : '',
+].filter(Boolean);
+const fuenteImagen = REFERENCIAS[d.referencias[0]]?.corta ?? 'Luna Coello (2026)';
 ---
 
 <Base titulo={d.titulo} descripcion={descripcion}>
   <p class="migas">
-    <a href={url('morfologias')}>Consultar</a> › {CATEGORIAS[d.categoria]} › {d.codigo}
+    <a href={url('morfologias')}>Consultar</a> › {CATEGORIAS[d.categoria]}{REVISION && ` › ${d.codigo}`}
   </p>
 
   <article class="ficha" data-pagefind-body>
     <header>
-      <p class="codigo">{d.codigo} · {d.grupo}</p>
+      <p class="codigo">{REVISION && `${d.codigo} · `}{d.grupo}</p>
       <h1 data-pagefind-meta="title">{d.titulo}</h1>
-      <p class="ingles">{d.nombreIngles}</p>
-      {d.sinonimos.length > 0 && <p class="codigo">También llamado: {d.sinonimos.join(', ')}</p>}
+      {
+        otrosNombres.length > 0 && (
+          <p class="otros-nombres">
+            {otrosNombres.map((t, i) => (
+              <>
+                {i > 0 && <span aria-hidden="true"> · </span>}
+                {t.startsWith('inglés: ') ? (
+                  <span>
+                    En inglés:{' '}
+                    <i lang="en">{t.slice(8)}</i>
+                  </span>
+                ) : (
+                  <span>{t}</span>
+                )}
+              </>
+            ))}
+          </p>
+        )
+      }
       <div class="badges" data-pagefind-ignore>
         <Estado estado={d.estadoRevision} />
         {d.felinoPendiente && <span class="badge pendiente"><span aria-hidden="true">○</span> Felino pendiente</span>}
@@ -49,10 +87,16 @@ const descripcion = `${d.titulo}: ${d.rasgo}. Ficha del atlas de morfología eri
                 <Image src={d.imagen.src} alt={d.imagen.alt} widths={[480, 800, 1200]} sizes="(max-width: 60rem) 92vw, 800px" loading="eager" />
               </button>
             </div>
-            <figcaption>
-              {d.imagen.pie}
-              {d.felinoPendiente && <span class="aviso-felino"> ○ Fotografía felina pendiente.</span>}
-            </figcaption>
+            {REVISION ? (
+              <figcaption>
+                {d.imagen.pie}
+                {d.felinoPendiente && <span class="aviso-felino"> ○ Fotografía felina pendiente.</span>}
+              </figcaption>
+            ) : (
+              <figcaption>
+                Fuente: {fuenteImagen}. <span class="badge pendiente etiqueta-provisional">Imagen provisional</span>
+              </figcaption>
+            )}
           </>
         ) : (
           <div class="sin-foto">Imagen pendiente para esta morfología.</div>
@@ -65,20 +109,18 @@ const descripcion = `${d.titulo}: ${d.rasgo}. Ficha del atlas de morfología eri
       <p>{d.rasgo}.</p>
     </aside>
 
-    <dl class="trio">
-      <div>
-        <dt>Igual en perro y gato</dt>
-        <dd>{d.igual}</dd>
-      </div>
-      <div>
-        <dt>Qué cambia en el gato</dt>
-        <dd>{d.gato}</dd>
-      </div>
-      <div>
-        <dt>Significado clínico</dt>
-        <dd>{d.clinico}</dd>
-      </div>
-    </dl>
+    {
+      trio.length > 0 && (
+        <dl class="trio">
+          {trio.map((t) => (
+            <div class={t.pendiente ? 'pendiente-revision' : undefined}>
+              <dt>{t.titulo}</dt>
+              <dd>{t.texto}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
 
     <div class="prose">
       <Content />
@@ -118,7 +160,7 @@ const descripcion = `${d.titulo}: ${d.rasgo}. Ficha del atlas de morfología eri
     }
 
     {
-      (d.pendientes.length > 0 || d.notas.length > 0) && (
+      REVISION && (d.pendientes.length > 0 || d.notas.length > 0) && (
         <details class="plegable" data-pagefind-ignore>
           <summary>Estado de esta ficha: pendientes y notas editoriales</summary>
           <p>Versión de contenido {d.versionContenido} · actualizada el {d.fechaContenido} · borrador en revisión.</p>

@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { url, CATEGORIAS, type Morfologia } from '../lib/datos';
+import { url, CATEGORIAS, REVISION, type Morfologia } from '../lib/datos';
 import Estado from './Estado.astro';
 
 interface Props {
@@ -22,7 +22,7 @@ const texto = [d.titulo, d.nombreIngles, d.sinonimos.join(' '), d.rasgo, d.grupo
     }
   </div>
   <div class="cuerpo">
-    <p class="codigo">{d.codigo} · {CATEGORIAS[d.categoria]}</p>
+    <p class="codigo">{REVISION && `${d.codigo} · `}{CATEGORIAS[d.categoria]}</p>
     <h3><a href={url(`morfologias/${m.id}`)}>{d.titulo}</a></h3>
     <p>{d.rasgo}.</p>
     <div class="badges">
