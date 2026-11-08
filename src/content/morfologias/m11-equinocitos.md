@@ -1,6 +1,6 @@
 ---
 codigo: M11
-titulo: Equinocitos (crenados)
+titulo: Equinocitos
 nombreIngles: echinocyte (burr cell)
 sinonimos:
 - crenados

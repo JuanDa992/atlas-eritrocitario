@@ -49,7 +49,7 @@ Diámetro ligeramente menor que el eritrocito normal; sin umbral numérico.
 
 ## Cómo distinguirlo
 
-La discusión indica que Thrall et al. (2012) mencionaban en ocasiones esferocitos y microcitos como una sola alteración. Relacionar con hipercromía (la hemoglobina concentrada en una célula esférica) y Microcitos.
+Compárelo con los microcitos: parte de la literatura los ha descrito juntos como una sola alteración (Thrall et al., 2012, citado en la tesis). Se relaciona con la hipercromía: la hemoglobina se concentra en una célula esférica.
 
 <details>
 <summary>Ver más: fisiopatología y calidad de la muestra</summary>

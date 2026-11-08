@@ -51,7 +51,7 @@ La tesis no da un umbral de diámetro para microcito; solo la comparación con l
 
 ## Cómo distinguirlo
 
-La discusión de la tesis indica que Thrall et al. (2012) mencionaban en ocasiones esferocitos y microcitos como una sola alteración. Relacionar con Esferocitos.
+Compárelo con los esferocitos: parte de la literatura los ha descrito juntos como una sola alteración (Thrall et al., 2012, citado en la tesis).
 
 <details>
 <summary>Ver más: fisiopatología y calidad de la muestra</summary>

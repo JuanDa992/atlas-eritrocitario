@@ -1,8 +1,9 @@
 ---
 codigo: M03
-titulo: Hipocromasia (hipocromía)
+titulo: Hipocromasia
 nombreIngles: hypochromia
 sinonimos:
+- hipocromía
 - hipocromasia
 grupo: Alteraciones de tonalidad
 categoria: tonalidad

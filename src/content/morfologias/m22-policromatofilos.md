@@ -1,6 +1,6 @@
 ---
 codigo: M22
-titulo: Policromatófilos (policromasia)
+titulo: Policromatófilos
 nombreIngles: polychromatophil (polychromasia)
 sinonimos:
 - policromasia

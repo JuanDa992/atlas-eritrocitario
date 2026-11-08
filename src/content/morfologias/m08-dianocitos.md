@@ -1,6 +1,6 @@
 ---
 codigo: M08
-titulo: Codocitos (dianocitos, leptocitos)
+titulo: Codocitos
 nombreIngles: target cell (codocyte)
 sinonimos:
 - leptocitos

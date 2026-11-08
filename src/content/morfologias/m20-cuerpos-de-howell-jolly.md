@@ -1,6 +1,6 @@
 ---
 codigo: M20
-titulo: Corpúsculos de Howell-Jolly (cuerpos de Howell-Jolly)
+titulo: Corpúsculos de Howell-Jolly
 nombreIngles: Howell-Jolly body
 sinonimos:
 - corpúsculos de Howell-Jolly
