@@ -7,11 +7,19 @@ import sitemap from '@astrojs/sitemap';
 //   o `npm run preview:revision`. Usa base '/' y sale en dist-revision/.
 // Si más adelante se usa un dominio propio (p. ej. atlas.uce.edu.ec): quitar `base`,
 // cambiar `site` y añadir public/CNAME.
+// - Cloudflare Pages: ATLAS_BASE=/ y ATLAS_SITE=https://atlas-eritrocitario.pages.dev (variables en el panel).
 const revision = process.env.PUBLIC_ATLAS_MODO === 'revision';
+
+// Base configurable: Cloudflare Pages usa ATLAS_BASE=/ ; sin la variable se mantiene la de GitHub Pages.
+const basePublica = process.env.ATLAS_BASE || '/atlas-eritrocitario';
+// La versión de revisión NUNCA se compila en un servicio de publicación (Cloudflare define CF_PAGES=1; GitHub Actions, CI=true).
+if (revision && (process.env.CF_PAGES || process.env.CI)) {
+  throw new Error('PUBLIC_ATLAS_MODO=revision no está permitido en CI/Cloudflare: la versión de revisión es solo local.');
+}
 
 export default defineConfig({
   site: process.env.ATLAS_SITE ?? 'https://juanda992.github.io',
-  base: revision ? '/' : '/atlas-eritrocitario',
+  base: revision ? '/' : basePublica,
   outDir: revision ? './dist-revision' : './dist',
   trailingSlash: 'always',
   integrations: [sitemap()],

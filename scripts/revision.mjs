@@ -9,13 +9,17 @@
 // de revisión (4322) pueden estar abiertas a la vez.
 import { spawnSync } from 'node:child_process';
 import { createServer } from 'node:http';
-import { existsSync, statSync, createReadStream } from 'node:fs';
-import { join, normalize, extname, resolve } from 'node:path';
+import { existsSync, statSync, realpathSync, createReadStream } from 'node:fs';
+import { join, normalize, extname, resolve, relative, isAbsolute } from 'node:path';
 
 process.env.PUBLIC_ATLAS_MODO = 'revision';
 const accion = process.argv[2] ?? 'dev';
 const PUERTO = 4322;
 const SALIDA = resolve('dist-revision');
+// Nombres de dispositivo de Windows (CON, NUL, COM1…), que no deben pedirse como archivos.
+const DISPOSITIVO_WINDOWS = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+// Solo se atienden peticiones dirigidas a la propia PC (evita «DNS rebinding»).
+const HOSTS_PERMITIDOS = new Set([`localhost:${PUERTO}`, `127.0.0.1:${PUERTO}`]);
 
 // npx: en Windows es un .cmd y necesita la shell; se pasa como una sola orden
 // (sin lista de argumentos) para evitar el aviso DEP0190 de Node.
@@ -60,36 +64,88 @@ function vistaPrevia() {
     process.exit(1);
   }
   const servidor = createServer((req, res) => {
-    let ruta = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    try {
+      atender(req, res);
+    } catch (e) {
+      // Cualquier fallo inesperado responde 500 en lugar de detener el servidor.
+      if (!res.headersSent) res.writeHead(500);
+      res.end();
+    }
+  });
+  function atender(req, res) {
+    if (!HOSTS_PERMITIDOS.has(String(req.headers.host ?? '').toLowerCase())) {
+      res.writeHead(421).end();
+      return;
+    }
+    // Servidor de solo lectura: únicamente GET y HEAD.
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+      res.writeHead(405, { Allow: 'GET, HEAD' }).end();
+      return;
+    }
+    let ruta;
+    try {
+      ruta = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    } catch {
+      // URL mal codificada (p. ej. /%ZZ): petición incorrecta, el servidor sigue en marcha.
+      res.writeHead(400).end();
+      return;
+    }
+    // NUL, «:» (flujos NTFS como ::$DATA, unidades) y barras invertidas no son rutas válidas del sitio.
+    if (ruta.includes('\0') || ruta.includes(':') || ruta.includes('\\')) {
+      res.writeHead(400).end();
+      return;
+    }
+    if (ruta.split('/').some((seg) => DISPOSITIVO_WINDOWS.test(seg))) {
+      res.writeHead(400).end();
+      return;
+    }
     let archivo = normalize(join(SALIDA, ruta));
-    if (!archivo.startsWith(SALIDA)) {
+    // Solo se sirven archivos DENTRO de dist-revision/ (evita ../ y carpetas vecinas
+    // con el mismo prefijo, como dist-revision-copia/).
+    const rel = relative(SALIDA, archivo);
+    if (rel.startsWith('..') || isAbsolute(rel)) {
       res.writeHead(403).end();
       return;
     }
     if (existsSync(archivo) && statSync(archivo).isDirectory()) {
       if (!ruta.endsWith('/')) {
-        res.writeHead(301, { Location: ruta + '/' }).end();
+        res.writeHead(301, { Location: new URL(req.url, 'http://x').pathname + '/' }).end();
         return;
       }
       archivo = join(archivo, 'index.html');
     }
     let estado = 200;
-    if (!existsSync(archivo)) {
+    if (!existsSync(archivo) || !statSync(archivo).isFile()) {
       estado = 404;
       archivo = join(SALIDA, '404.html');
+    }
+    // Si hubiera enlaces simbólicos o «junctions», se comprueba también la ruta real.
+    const real = relative(realpathSync(SALIDA), realpathSync(archivo));
+    if (real.startsWith('..') || isAbsolute(real)) {
+      res.writeHead(403).end();
+      return;
     }
     res.writeHead(estado, {
       'Content-Type': TIPOS[extname(archivo).toLowerCase()] ?? 'application/octet-stream',
       'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
     });
-    createReadStream(archivo).pipe(res);
-  });
+    if (req.method === 'HEAD') {
+      res.end();
+      return;
+    }
+    createReadStream(archivo)
+      .on('error', () => res.destroy())
+      .pipe(res);
+  }
   servidor.on('error', (e) => {
     console.error(e.code === 'EADDRINUSE' ? `El puerto ${PUERTO} ya está en uso.` : e.message);
     process.exit(1);
   });
-  servidor.listen(PUERTO, () => {
-    console.log(`\n  Versión de REVISIÓN:  http://localhost:${PUERTO}/`);
+  // Solo escucha en la propia PC (127.0.0.1): la versión de revisión no es accesible desde la red.
+  servidor.listen(PUERTO, '127.0.0.1', () => {
+    console.log(`\n  Versión de REVISIÓN:  http://127.0.0.1:${PUERTO}/`);
     console.log('  (Ctrl + C para cerrar)\n');
   });
 }
@@ -101,5 +157,5 @@ if (accion === 'build') {
 } else if (accion === 'preview') {
   vistaPrevia();
 } else {
-  npx(`astro dev --port ${PUERTO}`);
+  npx(`astro dev --host 127.0.0.1 --port ${PUERTO}`);
 }

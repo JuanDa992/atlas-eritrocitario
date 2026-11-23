@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import { url, VERSION } from '../lib/datos';
+
+const urlSitio = new URL(url(), Astro.site).href;
 ---
 
 <Base titulo="Acerca, créditos y cómo citar" descripcion="Créditos, licencia y forma provisional de citar el atlas de morfología eritrocitaria.">
@@ -37,7 +39,7 @@ import { url, VERSION } from '../lib/datos';
     <p>
       Luna Coello, M. H. y Báez Sotomayor, J. D. (2026). <em>Atlas de morfología eritrocitaria en caninos y
       felinos</em> (versión beta {VERSION}) [Sitio web]. Universidad Central del Ecuador.
-      https://juanda992.github.io/atlas-eritrocitario/
+      {urlSitio}
     </p>
     <p>El orden de autoría y la cita definitiva se acordarán antes de la versión 1.0, que tendrá DOI en Zenodo.</p>
 
