@@ -1,11 +1,15 @@
 // Comprueba, después de `astro build`, que cada página tiene su CSP y que
 // todo script o estilo inline tiene su hash en ella. Si algo falla, la
 // compilación se detiene (así nunca se publica una página con partes bloqueadas).
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 
 const dir = process.argv[2] ?? 'dist';
+if (!existsSync(dir) || !statSync(dir).isDirectory()) {
+  console.error(`CSP: no existe la carpeta de salida «${dir}».`);
+  process.exit(1);
+}
 const archivos = [];
 (function recorrer(d) {
   for (const n of readdirSync(d)) {
@@ -17,6 +21,10 @@ const archivos = [];
 
 const hash = (s) => 'sha256-' + createHash('sha256').update(s, 'utf8').digest('base64');
 const errores = [];
+// Una salida vacía o incompleta no puede darse por buena (evita un «éxito» falso).
+if (archivos.length === 0) errores.push(`${dir}: no hay páginas HTML`);
+for (const esencial of ['index.html', '404.html', join('buscar', 'index.html')])
+  if (!existsSync(join(dir, esencial))) errores.push(`${dir}: falta la página esencial ${esencial}`);
 for (const f of archivos) {
   const html = readFileSync(f, 'utf8');
   const m = html.match(/http-equiv="content-security-policy" content="([^"]*)"/i);

@@ -9,13 +9,17 @@
 // de revisión (4322) pueden estar abiertas a la vez.
 import { spawnSync } from 'node:child_process';
 import { createServer } from 'node:http';
-import { existsSync, statSync, createReadStream } from 'node:fs';
+import { existsSync, statSync, realpathSync, createReadStream } from 'node:fs';
 import { join, normalize, extname, resolve, relative, isAbsolute } from 'node:path';
 
 process.env.PUBLIC_ATLAS_MODO = 'revision';
 const accion = process.argv[2] ?? 'dev';
 const PUERTO = 4322;
 const SALIDA = resolve('dist-revision');
+// Nombres de dispositivo de Windows (CON, NUL, COM1…), que no deben pedirse como archivos.
+const DISPOSITIVO_WINDOWS = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
+// Solo se atienden peticiones dirigidas a la propia PC (evita «DNS rebinding»).
+const HOSTS_PERMITIDOS = new Set([`localhost:${PUERTO}`, `127.0.0.1:${PUERTO}`]);
 
 // npx: en Windows es un .cmd y necesita la shell; se pasa como una sola orden
 // (sin lista de argumentos) para evitar el aviso DEP0190 de Node.
@@ -69,6 +73,15 @@ function vistaPrevia() {
     }
   });
   function atender(req, res) {
+    if (!HOSTS_PERMITIDOS.has(String(req.headers.host ?? '').toLowerCase())) {
+      res.writeHead(421).end();
+      return;
+    }
+    // Servidor de solo lectura: únicamente GET y HEAD.
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+      res.writeHead(405, { Allow: 'GET, HEAD' }).end();
+      return;
+    }
     let ruta;
     try {
       ruta = decodeURIComponent(new URL(req.url, 'http://x').pathname);
@@ -77,7 +90,12 @@ function vistaPrevia() {
       res.writeHead(400).end();
       return;
     }
-    if (ruta.includes('\0')) {
+    // NUL, «:» (flujos NTFS como ::$DATA, unidades) y barras invertidas no son rutas válidas del sitio.
+    if (ruta.includes('\0') || ruta.includes(':') || ruta.includes('\\')) {
+      res.writeHead(400).end();
+      return;
+    }
+    if (ruta.split('/').some((seg) => DISPOSITIVO_WINDOWS.test(seg))) {
       res.writeHead(400).end();
       return;
     }
@@ -97,14 +115,26 @@ function vistaPrevia() {
       archivo = join(archivo, 'index.html');
     }
     let estado = 200;
-    if (!existsSync(archivo)) {
+    if (!existsSync(archivo) || !statSync(archivo).isFile()) {
       estado = 404;
       archivo = join(SALIDA, '404.html');
+    }
+    // Si hubiera enlaces simbólicos o «junctions», se comprueba también la ruta real.
+    const real = relative(realpathSync(SALIDA), realpathSync(archivo));
+    if (real.startsWith('..') || isAbsolute(real)) {
+      res.writeHead(403).end();
+      return;
     }
     res.writeHead(estado, {
       'Content-Type': TIPOS[extname(archivo).toLowerCase()] ?? 'application/octet-stream',
       'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
     });
+    if (req.method === 'HEAD') {
+      res.end();
+      return;
+    }
     createReadStream(archivo)
       .on('error', () => res.destroy())
       .pipe(res);
