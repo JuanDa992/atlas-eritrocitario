@@ -1,15 +1,16 @@
 # Atlas de morfología eritrocitaria en caninos y felinos
 
-Sitio estático (Astro + Content Collections + Pagefind) publicado en GitHub Pages.
+Sitio estático (Astro + Content Collections + Pagefind) publicado en GitHub Pages y Cloudflare Pages.
 Estado: **beta 0.9** — contenido en revisión por especialistas, fotografías felinas pendientes, imágenes provisionales.
 
-- Sitio: <https://juanda992.github.io/atlas-eritrocitario/>
+- Sitio (GitHub Pages): <https://juanda992.github.io/atlas-eritrocitario/>
+- Sitio (Cloudflare Pages): <https://atlas-eritrocitario.pages.dev/>
 - Base científica: tesis de María Himaraya Luna Coello (UCE, 2026).
 - Diseño, ejecución y programación: Juan David Báez Sotomayor.
 
 ## Trabajar en local
 
-Requisitos: Node.js 20 o superior y Git.
+Requisitos: Node.js 22.23.4 o superior y Git.
 
 ```bash
 npm install
@@ -39,6 +40,7 @@ Quien redacta solo edita los `.md` de `src/content/` y las imágenes; no hace fa
 
 Cada `git push` a `main` publica solo (GitHub Actions). En GitHub: **Settings → Pages → Source: GitHub Actions**.
 El repositorio debe ser **público** (Pages con repositorio privado exige un plan de pago).
+Cloudflare Pages también compila y publica `main` por su cuenta; configuración en `docs/CLOUDFLARE.md`.
 
 ## Licencias
 
